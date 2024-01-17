@@ -1,0 +1,155 @@
+.login-container {
+    margin-top: 50px;
+  }
+  
+  .image-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .form-column {
+    padding: 20px;
+    background-color: #f8f9fa;
+  }
+  
+  .img-fluid {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .inpField {
+    width: 100%;
+  }
+  
+  .btnSubmit {
+    width: 100%;
+  }
+  
+  .btn-forgot-password,
+  .btn-create-account {
+    text-decoration: none;
+    color: #007bff;
+  }
+
+
+.custom-navbar {
+    color: #ffffff; 
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+  }
+  
+  .custom-navbar .nav-link {
+    color: #ffffff; 
+  }
+  
+  .custom-navbar .nav-link:hover {
+    color: #17a2b8; 
+  }
+  
+  .custom-navbar .btnLogin {
+    background-color: #007bff;
+    color: #ffffff;
+  }
+  
+  .custom-navbar .btnLogin:hover {
+    background-color: #0056b3; 
+    color:white;
+  }
+
+  .hero-section {
+    background-color: #343a40;
+    padding: 80px 0;
+  }
+  
+  .hero-title {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color:#e8dd0b;
+  }
+  
+  .hero-description {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+    color:whitesmoke;
+    text-align: center;
+  }
+  
+  .hero-btn {
+    background-color: #007bff; /* Primary button color */
+    border: none;
+  }
+  
+  .hero-btn:hover {
+    background-color: #0056b3; /* Hover background color */
+  }
+  
+  .testimonials-container {
+    background-color: #343a40;
+    padding: 40px 0px;
+    margin: 100px 0px;
+  }
+  
+  .section-title {
+    text-align: center;
+    margin-bottom: 40px;
+    color:#e8dd0b;
+  }
+  
+  .testimonial-card {
+    text-align: center;
+    background-color: #f8f9fa;
+    border: none;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height:70vh;
+  }
+  
+  .testimonial-feedback {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    text-align:start;
+  }
+  
+  .testimonial-name {
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+
+  .border-1 {
+    border: 5px solid #007bff; /* Blue border */
+  }
+  
+  .border-2 {
+    border: 5px solid #28a745; /* Green border */
+  }
+  
+  .border-3 {
+    border: 5px solid #dc3545; /* Red border */
+  }
+  
+  .border-4 {
+    border: 5px solid #ffc107; /* Yellow border */
+  }
+
+  .footer-container {
+    background-color: #343a40;
+    color: #fff;
+    padding: 20px 0;
+    bottom: 0;
+    width: 100%;
+  }
+  
+  .footer-text {
+    text-align: center;
+  }
+  
+  
+  
+  
+  
+  
+  
