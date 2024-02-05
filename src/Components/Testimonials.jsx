@@ -30,8 +30,9 @@ function Testimonials() {
     },
   ];
 
+  const itemsToShow = window.innerWidth < 576 ? 1 : 3;
   const testimonialsChunks = testimonials.reduce((resultArray, item, index) => {
-    const chunkIndex = Math.floor(index / 3);
+    const chunkIndex = Math.floor(index / itemsToShow);
 
     if (!resultArray[chunkIndex]) {
       resultArray[chunkIndex] = [];
@@ -42,38 +43,37 @@ function Testimonials() {
     return resultArray;
   }, []);
 
+ // Adjust the breakpoint according to your design
   return (
-    <div className="testimonials-container">
-      <Container>
-        <h2 className="section-title">What Our Users Say</h2>
-        <Row>
-          <Col>
-            <Carousel interval={5000} pause={false}>
-              {testimonialsChunks.map((testimonialGroup, groupIndex) => (
-                <Carousel.Item key={groupIndex}>
-                  <Row>
-                    {testimonialGroup.map((testimonial, index) => (
-                      <Col key={testimonial.id} md={4}>
-                        <Card className={`testimonial-card border-${index + 1}`}>
-                          <Card.Body className="d-flex flex-column justify-content-between">
-                            <Card.Text className="testimonial-feedback">
-                              {testimonial.feedback}
-                            </Card.Text>
-                            <Card.Title className="testimonial-name">
-                              - {testimonial.name}
-                            </Card.Title>
-                          </Card.Body>
-                        </Card>
-                      </Col>
-                    ))}
-                  </Row>
-                </Carousel.Item>
-              ))}
-            </Carousel>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+    <Container className="testimonials-container">
+      <h2 className="section-title">What Our Users Say</h2>
+      <Row>
+        <Col>
+          <Carousel interval={5000} pause={false} indicators={false}>
+            {testimonialsChunks.map((testimonialGroup, groupIndex) => (
+              <Carousel.Item key={groupIndex}>
+                <Row>
+                  {testimonialGroup.map((testimonial) => (
+                    <Col key={testimonial.id} md={4}>
+                      <Card className={`testimonial-card border-${testimonial.id}`}>
+                        <Card.Body className="d-flex flex-column justify-content-between">
+                          <Card.Text className="testimonial-feedback">
+                            {testimonial.feedback}
+                          </Card.Text>
+                          <Card.Title className="testimonial-name">
+                            - {testimonial.name}
+                          </Card.Title>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  ))}
+                </Row>
+              </Carousel.Item>
+            ))}
+          </Carousel>
+        </Col>
+      </Row>
+    </Container>
   );
 }
 
