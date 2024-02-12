@@ -1,5 +1,5 @@
 import "../style.css";
-
+import logo from "../Assets/logo.png";
 const Footer = () => {
   return (
     <footer class="footer-section">
@@ -42,7 +42,7 @@ const Footer = () => {
                 <div class="footer-logo">
                   <a href="index.html">
                     <img
-                      src="https://i.ibb.co/QDy827D/ak-logo.png"
+                      src={logo}
                       class="img-fluid"
                       alt="logo"
                     />
