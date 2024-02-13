@@ -161,6 +161,14 @@ body{
   
   .quiz-category-card {
     margin-bottom: 20px;
+    height: 70vh;
+    background-color: whitesmoke;
+    cursor: pointer;
+    margin-left: 40px;
+  }
+  .quiz-category-card img{
+    width: 100%;
+    height: 50%;
   }
 
   .quiz-category-card:hover {
@@ -187,10 +195,23 @@ body{
     color:white;
   }
 
+  .play-btn{
+      border:1px solid  #ffc107;
+      background-color: white;
+      font-size: 1rem;
+      color: #ffc107;
+      font-weight: bold;
+  }
+
+  .play-btn:hover{
+      color:white;
+      background-color: #e8dd0b;
+  }
+
   .faq-heading {
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin: 0;
-    color:black;
+    color:#e8dd0b;
   }
   .accordion-item{
     border: none;
@@ -394,7 +415,8 @@ body{
 
 
 .video-card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-5px);
+  box-shadow: 5px 5px 10px #e8dd0b;
 }
 
 
@@ -404,20 +426,6 @@ body{
   display: block;
 }
 
-.video-card .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.video-card:hover .overlay {
-  opacity: 1;
-}
 
 
 

@@ -1,5 +1,3 @@
-// ResourcesPage.js
-
 import React from "react";
 
 const videoData = [
@@ -55,7 +53,32 @@ const videoData = [
       },
     ],
   },
-  // Add more objects for additional languages
+  {
+    language: "Web Development",
+    tutorials: [
+      {
+        title: "HTML",
+        difficulty: "beginner",
+        url: "https://www.youtube.com/watch?app=desktop&v=88PXJAA6szs",
+        thumbnail: "https://i.ytimg.com/vi/88PXJAA6szs/maxresdefault.jpg",
+        description: "This video on HTML will provide you with a detailed and comprehensive knowledge about HTML. In this HTML Tutorial for Beginners you will learn HTML concepts from scratch and also how to create your first web page using HTML Tags.",
+      },
+      {
+        title: "CSS",
+        difficulty: "beginner",
+        url: "https://www.youtube.com/watch?app=desktop&v=Edsxf_NBFrw",
+        thumbnail: "https://i.ytimg.com/vi/ywBg3YV2PJU/maxresdefault.jpg",
+        description: "In this CSS3 tutorial in Hindi we will learn everything you need to learn about CSS from scratch. We will first discuss why we need CSS and what CSS is after which we will gradually build pace and learn several intermediate to advanced level concepts.",
+      },
+      {
+        title: "JavaScript",
+        difficulty: "beginner",
+        url: "https://www.youtube.com/watch?v=PkZNo7MFNFg",
+        thumbnail: "https://i.ytimg.com/vi/hdI2bqOjy3c/maxresdefault.jpg",
+        description: "This JavaScript tutorial is for beginners will teach you everything you need to know to get started with the JavaScript programming language.",
+      },
+    ],
+  },
 ];
 
 const Hero = {
@@ -111,14 +134,14 @@ const ResourcesPage = () => {
                       <div className="overlay"></div>
                       <div className={`badge m-3 ${getBadgeColor(tutorial.difficulty)}`}>{tutorial.title}</div>
                     </a>
-                    <p className="quiz-desc text-dark mx-3">
+                    <p className="quiz-desc text-dark mx-3" style={{fontSize:"0.9rem"}} >
                       {tutorial.description}
                     </p>
                   </div>
                 </div>
               ))}
             </div>
-            <span style={{fontWeight:"700"}}><hr/></span>
+            <hr/>
           </div>
           
         ))}

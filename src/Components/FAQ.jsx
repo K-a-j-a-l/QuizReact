@@ -7,7 +7,7 @@ const FAQ = () => {
     <div className="faq-container mx-5 p-5">
       <Row>
         <Col md={6} className="faq-heading-col p-3">
-          <h2 className="faq-heading">FAQ</h2>
+          <h2 className="faq-heading">Frequently Asked Questions</h2>
         </Col>
         <Col md={6} className="faq-accordion-col p-3">
           <div class="accordion" id="accordionExample">

@@ -6,6 +6,7 @@ import Navbar from './Components/Navbar';
 import Footer from './Components/Footer';
 import ContactPage from './Pages/ContactPage';
 import ResourcesPage from './Pages/ResourcesPage';
+import QuizPage from './Pages/QuizPage'
 
 function App() {
   return (
@@ -18,10 +19,11 @@ function App() {
          <Route path="/login" element={<Login />} />
          <Route path="/Contact" element={<ContactPage/>}/>
          <Route path="/Resources" element={<ResourcesPage/>}/>
+         <Route path="/Quiz" element={<QuizPage/>}></Route>
         {/* <Route path="/AdminPanel" element={<AdminPanel />} />
         
         
-        <Route path="/Product" element={<ProductPage/>}></Route>
+        
         <Route path="/Listings" element={<ListingPage/>}></Route>  */}
 
       </Routes>
