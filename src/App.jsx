@@ -7,6 +7,7 @@ import Footer from './Components/Footer';
 import ContactPage from './Pages/ContactPage';
 import ResourcesPage from './Pages/ResourcesPage';
 import QuizPage from './Pages/QuizPage'
+import Leaderboard from './Pages/LeaderBoardPage';
 
 function App() {
   return (
@@ -20,11 +21,12 @@ function App() {
          <Route path="/Contact" element={<ContactPage/>}/>
          <Route path="/Resources" element={<ResourcesPage/>}/>
          <Route path="/Quiz" element={<QuizPage/>}></Route>
+         <Route path="/Leaderboard" element={<Leaderboard/>}></Route>
         {/* <Route path="/AdminPanel" element={<AdminPanel />} />
         
         
         
-        <Route path="/Listings" element={<ListingPage/>}></Route>  */}
+          */}
 
       </Routes>
       <Footer/>

@@ -52,7 +52,7 @@ const Hero = {
   backgroundPosition: "center",
 };
 
-const getBadgeColor = (difficulty) => {
+export const getBadgeColor = (difficulty) => {
   switch (difficulty) {
     case "beginner":
       return "bg-info";

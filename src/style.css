@@ -172,7 +172,7 @@ body{
   }
 
   .quiz-category-card:hover {
-    box-shadow: 5px 5px 5px #e8dd0b;
+    border: 3px solid #e8dd0b;
   }
   
   .quiz-category-card .card-body {
@@ -425,6 +425,11 @@ body{
   height: auto;
   display: block;
 }
+
+.leaderboard-container {
+  margin-top: 100px;
+}
+
 
 
 

@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col, Card, Button, Carousel } from "react-bootstrap";
 import "../style.css";
 import { useNavigate } from "react-router-dom";
+import { getBadgeColor } from "../Pages/QuizPage";
 
 function QuizCategories() {
   const navigate = useNavigate();
@@ -9,96 +10,95 @@ function QuizCategories() {
     {
       id: 1,
       title: "JavaScript",
+      difficulty: "beginner",
       description: "Test your JavaScript knowledge.",
       image:
         "https://cdn.pixabay.com/photo/2015/04/23/17/41/javascript-736400_640.png",
+      questions: 10,
+      plays: 5000,
     },
     {
       id: 2,
       title: "Python",
+      difficulty: "beginner",
       description: "Explore Python programming language.",
       image:
         "https://raw.githubusercontent.com/docker-library/docs/01c12653951b2fe592c1f93a13b4e289ada0e3a1/python/logo.png",
+      questions: 15,
+      plays: 7000,
     },
     {
       id: 3,
       title: "Java",
+      difficulty: "beginner",
       description: "Challenge yourself with Java quizzes.",
       image:
         "https://www.jrebel.com/sites/default/files/image/2020-05/image-blog-revel-top-java-tools.jpg",
-    },
-    {
-      id: 4,
-      title: "C++",
-      description: "Challenge yourself with C++ quizzes.",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw7v5zOBRSTjLZIINcmFft1bLTQSfGGBIyo-GfGUjsg&s",
+      questions: 20,
+      plays: 9000,
     },
   ];
-
-  const itemsToShow = window.innerWidth < 576 ? 1 : 4;
-  const categoriesChunks = categories.reduce((resultArray, item, index) => {
-    const chunkIndex = Math.floor(index / itemsToShow);
-
-    if (!resultArray[chunkIndex]) {
-      resultArray[chunkIndex] = [];
-    }
-    resultArray[chunkIndex].push(item);
-
-    return resultArray;
-  }, []);
 
   return (
     <>
       <div className="quiz-categories-container py-2">
         <h2 className="section-title">Quiz Categories</h2>
-        <div>
-          <Row>
-            <Col>
-              <Carousel interval={5000} pause={false} indicators={false}>
-                {categoriesChunks.map((categoryGroup, groupIndex) => (
-                  <Carousel.Item key={groupIndex}>
-                    <Row>
-                      {categoryGroup.map((category) => (
-                        <Col key={category.id} md={3}>
-                          <Card className="quiz-category-card">
-                            <Card.Img
-                              src={category.image}
-                              alt={category.title}
-                              width={15}
-                              height={200}
-                              className="d-flex justify-content-center"
-                            />
-                            <Card.Body>
-                              <Card.Title>{category.title}</Card.Title>
-                              <Card.Text style={{ fontSize: "0.8rem" }}>
-                                {category.description}
-                              </Card.Text>
-                              <Button variant="primary">Start Quiz</Button>
-                            </Card.Body>
-                          </Card>
-                        </Col>
-                      ))}
-                    </Row>
-                  </Carousel.Item>
-                ))}
-              </Carousel>
-            </Col>
-          </Row>
-          <Row className="mx-5 my-5">
-            <Col md={4} className=" d-flex justify-content-center flex-column">
-              <h1 className="quiz-title">30M+</h1>
-              <h2 className="quiz-desc">Quizzes & Courses</h2>
-            </Col>
-            <Col md={4} className=" d-flex justify-content-center flex-column">
-              <h1 className="quiz-title">All languages</h1>
-              <h2 className="quiz-desc">C, Python, Java, JavaScript, etc</h2>
-            </Col>
-            <Col md={4} className=" d-flex justify-content-center flex-column">
-              <h1 className="quiz-title">All Levels</h1>
-              <h2 className="quiz-desc">Beginner, Expert & Advance</h2>
-            </Col>
-          </Row>
+        <div className="container">
+          <div className="row">
+            {categories.map((category, index) => (
+              <div className="col-md-4 col-sm-12" key={index}>
+                <div className="quiz-category-card mb-5">
+                  <img
+                    src={category.image}
+                    alt="Category Image"
+                    className="d-flex justify-content-center"
+                  />
+                  <div className="d-flex justify-content-between mx-4">
+                    <p className="absolute bg-white p-1 rounded">
+                      Q: {category.questions}
+                    </p>
+                    <p className="absolute bg-white p-1 rounded">
+                      Plays:{" "}
+                      {category.plays >= 1000
+                        ? (category.plays / 1000).toFixed(0) + "K"
+                        : category.plays}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h6 className="mx-4 pb-1">{category.title}</h6>
+                    <div
+                      className={`badge mx-4 mb-2 ${getBadgeColor(
+                        category.difficulty
+                      )}`}
+                    >
+                      {category.difficulty}
+                    </div>
+                    <p
+                      className="quiz-desc text-dark mx-4 mb-0"
+                      style={{ fontSize: "0.8rem" }}
+                    >
+                      {category.description}
+                    </p>
+                    <div className="d-flex justify-content-center m-2">
+                      <button className="play-btn px-3 py-2">Start Quiz</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="row">
+            <div className="col-12 d-flex justify-content-center mb-5">
+              <button
+                type="button"
+                className="btn btn-outline-light rounded-pill px-5 py-2 mx-2 play-btn"
+                onClick={() => navigate("/Quiz")}
+              >
+                See More
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <section className="section p-5">
