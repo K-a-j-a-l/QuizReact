@@ -8,6 +8,7 @@ import ContactPage from './Pages/ContactPage';
 import ResourcesPage from './Pages/ResourcesPage';
 import QuizPage from './Pages/QuizPage'
 import Leaderboard from './Pages/LeaderBoardPage';
+import SingleQuizPage from './Pages/SingleQuizPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
          <Route path="/Resources" element={<ResourcesPage/>}/>
          <Route path="/Quiz" element={<QuizPage/>}></Route>
          <Route path="/Leaderboard" element={<Leaderboard/>}></Route>
+         <Route path="/SingleQuiz" element={<SingleQuizPage/>}></Route>
         {/* <Route path="/AdminPanel" element={<AdminPanel />} />
         
         

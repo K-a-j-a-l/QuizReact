@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const categories = [
   {
@@ -66,6 +67,7 @@ export const getBadgeColor = (difficulty) => {
 };
 
 const QuizPage = () => {
+  const navigate=useNavigate();
   return (
     <div>
       <section>
@@ -117,7 +119,7 @@ const QuizPage = () => {
                     {category.description}
                   </p>
                   <div className="d-flex justify-content-center m-2">
-                    <button className="play-btn px-3 py-2">
+                    <button className="play-btn px-3 py-2" onClick={()=>navigate('/SingleQuiz')}>
                       Start Quiz
                     </button>
                   </div>
