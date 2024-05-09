@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import "../style.css"; // Import external CSS for styling
+import { auth } from "../config";
+import { setUser } from '../redux/slice';
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -8,7 +11,6 @@ function Login() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [showNameField, setShowNameField] = useState(false);
-
   const handleToggleForm = () => {
     setShowNameField(!showNameField);
     setEmail("");
@@ -16,13 +18,34 @@ function Login() {
     setName("");
     setMessage("");
   };
+  const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (showNameField) {
-      setMessage(`Registering with name: ${name}, email: ${email}, and password: ${password}`);
+      try {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        await userCredential.user.updateProfile({
+          displayName: name
+        });
+        dispatch(setUser(userCredential.user));
+        setMessage(`User registered successfully with name: ${name}, email: ${email}`);
+      } catch (error) {
+        setMessage(`Error registering user: ${error.message}`);
+      }
     } else {
-      setMessage(`Logging in with email: ${email} and password: ${password}`);
+      handleLogin();
+    }
+  };
+  
+  const handleLogin = async () => {
+    try {
+      const userCredential = await auth.signInWithEmailAndPassword(email, password);
+      dispatch(setUser(userCredential.user));
+      console.log("Logged in successfully!");
+    } catch (error) {
+      console.error("Error signing in:", error);
+      setMessage(`Error signing in: ${error.message}`);
     }
   };
 
@@ -79,19 +102,13 @@ function Login() {
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit" className="btnSubmit">
+            <Button
+              variant="primary"
+              type="submit"
+              className="btnSubmit"
+            >
               {showNameField ? "Register" : "Login"}
             </Button>
-
-            {/* {!showNameField && (
-              <Button
-                variant="link"
-                className="btn-forgot-password"
-                onClick={() => setMessage("Forgot Password Clicked")}
-              >
-                Forgot Password?
-              </Button>
-            )} */}
 
             {showNameField ? (
               <p className="mt-3">

@@ -1,9 +1,14 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, Navigate, useNavigate } from 'react-router-dom';
 import logo from "../Assets/logo.png";
+import { selectUser } from '../redux/slice';
 
 const Navbar = () => {
   const navigate=useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+  console.log(user);
   return (
     <nav className="navbar navbar-expand-lg bg-dark">
       <div className="container-fluid">
