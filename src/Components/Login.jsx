@@ -27,7 +27,7 @@ function Login() {
   };
 
   return (
-    <Container className="login-container">
+    <div className="login-container">
       <Row>
         {/* Column with Image */}
         <Col md={6} className="image-column">
@@ -83,7 +83,7 @@ function Login() {
               {showNameField ? "Register" : "Login"}
             </Button>
 
-            {!showNameField && (
+            {/* {!showNameField && (
               <Button
                 variant="link"
                 className="btn-forgot-password"
@@ -91,7 +91,7 @@ function Login() {
               >
                 Forgot Password?
               </Button>
-            )}
+            )} */}
 
             {showNameField ? (
               <p className="mt-3">
@@ -99,6 +99,7 @@ function Login() {
                 <Button
                   variant="link"
                   onClick={handleToggleForm}
+                  className="btns"
                 >
                   Login Here
                 </Button>
@@ -109,6 +110,7 @@ function Login() {
                 <Button
                   variant="link"
                   onClick={handleToggleForm}
+                  className="btns"
                 >
                   Create Account
                 </Button>
@@ -123,7 +125,7 @@ function Login() {
           )}
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 }
 

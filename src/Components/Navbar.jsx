@@ -31,7 +31,7 @@ const Navbar = () => {
           </ul>
           <div className='row'>
             <div className='col-5'>
-              <button type="button" className="btn btn-outline-light rounded-pill px-5 py-2 mx-2 create-btn" onClick={() => navigate("/login")}>SignUp</button>
+              <button type="button" className="btn btn-outline-light rounded-pill px-5 py-2 mx-3 create-btn" onClick={() => navigate("/login")}>SignUp</button>
             </div>
           </div>
         </div>

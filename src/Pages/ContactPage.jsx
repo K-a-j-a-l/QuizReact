@@ -52,40 +52,40 @@ const ContactPage = () => {
             </div>
             <div className='col-4 p-0' style={{ backgroundColor: '#ededed' }}>
               <div className='col p-5'>
-                <h1 className='fs-1 mb-4'>Contact Us</h1>
-                <button type="button" class="btn btn-dark rounded-pill px-5 py-2" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Contact Form</button>
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h1 class="modal-title fs-3 fw-normal" id="exampleModalLabel">Get in Touch!</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h1 className='fs-1 mb-4'>To Contact Us</h1>
+                <button type="button" className="btn btn-dark rounded-pill px-5 py-2" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Click Here</button>
+                <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div className="modal-dialog">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h1 className="modal-title fs-3 fw-normal" id="exampleModalLabel">Get in Touch!</h1>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
-                      <div class="modal-body">
+                      <div className="modal-body">
                         <form id="contact-form" name="myForm" className="form py-3" action="#" onsubmit="return validateForm()" method="POST" role="form">
 
-                          <div class="form-group">
-                            <label class="form-label" id="nameLabel" for="name"></label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Your name" tabindex="1" />
+                          <div className="form-group">
+                            <label className="form-label" id="nameLabel" for="name"></label>
+                            <input type="text" className="form-control" id="name" name="name" placeholder="Your name" tabindex="1" />
                           </div>
 
-                          <div class="form-group">
-                            <label class="form-label" id="emailLabel" for="email"></label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="Your Email" tabindex="2" />
+                          <div className="form-group">
+                            <label className="form-label" id="emailLabel" for="email"></label>
+                            <input type="email" className="form-control" id="email" name="email" placeholder="Your Email" tabindex="2" />
                           </div>
 
-                          <div class="form-group">
-                            <label class="form-label" id="subjectLabel" for="sublect"></label>
-                            <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject" tabindex="3" />
+                          <div className="form-group">
+                            <label className="form-label" id="subjectLabel" for="sublect"></label>
+                            <input type="text" className="form-control" id="subject" name="subject" placeholder="Subject" tabindex="3" />
                           </div>
 
-                          <div class="form-group">
-                            <label class="form-label" id="messageLabel" for="message"></label>
-                            <textarea rows="6" cols="60" name="message" class="form-control" id="message" placeholder="Your message" tabindex="4"></textarea>
+                          <div className="form-group">
+                            <label className="form-label" id="messageLabel" for="message"></label>
+                            <textarea rows="6" cols="60" name="message" className="form-control" id="message" placeholder="Your message" tabindex="4"></textarea>
                           </div>
 
-                          <div class="text-center margin-top-25">
-                            <button type="submit" class="btn btn-mod btn-border btn-large">Send Message</button>
+                          <div className="text-center margin-top-25">
+                            <button type="submit" className="btn btn-mod btn-border btn-large">Send Message</button>
                           </div>
 
                         </form>
