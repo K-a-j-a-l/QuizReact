@@ -1,8 +1,10 @@
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import "../style.css"; // Import external CSS for styling
+import { useNavigate } from "react-router-dom";
 
 function HeroSection() {
+  const navigate = useNavigate();
   return (
     <div className="hero-section">
       <Container>
@@ -14,9 +16,9 @@ function HeroSection() {
                 our quizzes cover a wide range of topics in various programming languages.
                 Enhance your coding skills and learn new concepts with our engaging and educational questions.
             </p>
-            <Button variant="primary" className="hero-btn">
+            <button className="hero-btn rounded-pill px-4 py-2 text-white" onClick={()=>navigate('/SingleQuiz')}>
               Start Quiz<i className="mx-2 fa-solid fa-angles-right"></i>
-            </Button>
+            </button>
           </Col>
         </Row>
       </Container>

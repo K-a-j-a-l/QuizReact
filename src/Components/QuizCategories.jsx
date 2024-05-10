@@ -81,7 +81,7 @@ function QuizCategories() {
                       {category.description}
                     </p>
                     <div className="d-flex justify-content-center m-2">
-                      <button className="play-btn px-3 py-2">Start Quiz</button>
+                      <button className="play-btn px-3 py-2" onClick={()=>navigate('/SingleQuiz')}>Start Quiz</button>
                     </div>
                   </div>
                 </div>
@@ -109,13 +109,13 @@ function QuizCategories() {
               show what they know.
             </p>
             <h1 className="quiz-title">Start Learning Today</h1>
-            <button
+            {/* <button
               type="button"
               className="btn btn-outline-light rounded-pill px-5 py-2 mx-2 create-btn"
               onClick={() => navigate("/login")}
             >
               SignUp
-            </button>
+            </button> */}
           </Col>
           <Col md={6}>
             <img

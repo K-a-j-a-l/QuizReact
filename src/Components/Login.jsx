@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 import "../style.css"; // Import external CSS for styling
 import { auth } from "../config";
+import { useNavigate } from "react-router-dom";
 import { setUser } from '../redux/slice';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -11,6 +14,9 @@ function Login() {
   const [name, setName] = useState("");
   const [message, setMessage] = useState("");
   const [showNameField, setShowNameField] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const handleToggleForm = () => {
     setShowNameField(!showNameField);
     setEmail("");
@@ -18,7 +24,6 @@ function Login() {
     setName("");
     setMessage("");
   };
-  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,7 +34,8 @@ function Login() {
           displayName: name
         });
         dispatch(setUser(userCredential.user));
-        setMessage(`User registered successfully with name: ${name}, email: ${email}`);
+        toast.success("Registered Successfully");
+        navigate('/');
       } catch (error) {
         setMessage(`Error registering user: ${error.message}`);
       }
@@ -42,7 +48,7 @@ function Login() {
     try {
       const userCredential = await auth.signInWithEmailAndPassword(email, password);
       dispatch(setUser(userCredential.user));
-      console.log("Logged in successfully!");
+      navigate('/');
     } catch (error) {
       console.error("Error signing in:", error);
       setMessage(`Error signing in: ${error.message}`);
@@ -51,6 +57,7 @@ function Login() {
 
   return (
     <div className="login-container">
+      <ToastContainer />
       <Row>
         {/* Column with Image */}
         <Col md={6} className="image-column">
