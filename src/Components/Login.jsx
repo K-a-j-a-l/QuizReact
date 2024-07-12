@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
-import "../style.css"; // Import external CSS for styling
+import "../style.css";
 import { auth } from "../config";
 import { useNavigate } from "react-router-dom";
-import { setUser } from '../redux/slice';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { setUser } from "../redux/slice";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -17,6 +17,17 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const storedToken = sessionStorage.getItem("userToken");
+    const storedUser = sessionStorage.getItem("user");
+    if (storedToken && storedUser) {
+      dispatch(setUser(JSON.parse(storedUser)));
+      navigate("/");
+    }
+    console.log(storedToken);
+    console.log(storedUser);
+  }, [dispatch, navigate]);
+
   const handleToggleForm = () => {
     setShowNameField(!showNameField);
     setEmail("");
@@ -24,18 +35,33 @@ function Login() {
     setName("");
     setMessage("");
   };
+  const handleForgotPassword = async () => {
+    try {
+      await auth.sendPasswordResetEmail(email);
+      setMessage("Password reset email sent. Please check your email inbox.");
+    } catch (error) {
+      console.error("Error sending password reset email:", error);
+      setMessage(`Error sending password reset email: ${error.message}`);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (showNameField) {
       try {
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const userCredential = await auth.createUserWithEmailAndPassword(
+          email,
+          password
+        );
         await userCredential.user.updateProfile({
-          displayName: name
+          displayName: name,
         });
+        const token = await userCredential.user.getIdToken();
+        sessionStorage.setItem("userToken", token);
+        sessionStorage.setItem("user", JSON.stringify(userCredential.user));
         dispatch(setUser(userCredential.user));
         toast.success("Registered Successfully");
-        navigate('/');
+        navigate("/");
       } catch (error) {
         setMessage(`Error registering user: ${error.message}`);
       }
@@ -43,12 +69,18 @@ function Login() {
       handleLogin();
     }
   };
-  
+
   const handleLogin = async () => {
     try {
-      const userCredential = await auth.signInWithEmailAndPassword(email, password);
+      const userCredential = await auth.signInWithEmailAndPassword(
+        email,
+        password
+      );
+      const token = await userCredential.user.getIdToken();
+      sessionStorage.setItem("userToken", token);
+      sessionStorage.setItem("user", JSON.stringify(userCredential.user));
       dispatch(setUser(userCredential.user));
-      navigate('/');
+      navigate("/");
     } catch (error) {
       console.error("Error signing in:", error);
       setMessage(`Error signing in: ${error.message}`);
@@ -109,11 +141,7 @@ function Login() {
               />
             </Form.Group>
 
-            <Button
-              variant="primary"
-              type="submit"
-              className="btnSubmit"
-            >
+            <Button variant="primary" type="submit" className="btnSubmit">
               {showNameField ? "Register" : "Login"}
             </Button>
 
@@ -129,16 +157,27 @@ function Login() {
                 </Button>
               </p>
             ) : (
-              <p className="mt-3">
-                Don't have an account?{" "}
-                <Button
-                  variant="link"
-                  onClick={handleToggleForm}
-                  className="btns"
-                >
-                  Create Account
-                </Button>
-              </p>
+              <div className="d-flex">
+                <p className="mt-3">
+                  Don't have an account?{" "}
+                  <Button
+                    variant="link"
+                    onClick={handleToggleForm}
+                    className="btns"
+                  >
+                    Create Account
+                  </Button>
+                </p>
+                <p className="mt-5 ms-5">
+                  <Button
+                    variant="link"
+                    onClick={handleForgotPassword}
+                    className="btns"
+                  >
+                    Forgot Password?
+                  </Button>
+                </p>
+              </div>
             )}
           </Form>
 

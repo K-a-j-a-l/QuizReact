@@ -1,19 +1,27 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink, Navigate, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../Assets/logo.png";
-import { selectUser } from "../redux/slice";
+import { selectUser, clearUser } from "../redux/slice";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  console.log(user);
+
+  const isAdmin =
+    user && (user?.email === "admin@gmail.com");
+
+  const handleLogout = () => {
+    dispatch(clearUser());
+    navigate("/");
+  };
+
   return (
     <nav className="navbar navbar-expand-lg bg-dark">
       <div className="container-fluid">
         <NavLink className="navbar-brand" to="/">
-          <img src={logo} alt="Logo" width={200} height={50} />
+          <img src={logo} alt="Logo" width={200} height={60} />
         </NavLink>
         <button
           className="navbar-toggler"
@@ -31,8 +39,7 @@ const Navbar = () => {
             <li className="nav-item">
               <NavLink
                 className="nav-link"
-                activeClassName="active"
-                exact
+                activeclassname="active"
                 to="/"
               >
                 Home
@@ -41,21 +48,21 @@ const Navbar = () => {
             <li className="nav-item">
               <NavLink
                 className="nav-link"
-                activeClassName="active"
+                activeclassname="active"
                 to="/Resources"
               >
                 Resources
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" activeClassName="active" to="/Quiz">
+              <NavLink className="nav-link" activeclassname="active" to="/Quiz">
                 Quizzes
               </NavLink>
             </li>
             <li className="nav-item">
               <NavLink
                 className="nav-link"
-                activeClassName="active"
+                activeclassname="active"
                 to="/Leaderboard"
               >
                 Leaderboard
@@ -64,21 +71,34 @@ const Navbar = () => {
             <li className="nav-item">
               <NavLink
                 className="nav-link"
-                activeClassName="active"
+                activeclassname="active"
                 to="/Contact"
               >
                 Contact
               </NavLink>
             </li>
+            {isAdmin && (
+              <li className="nav-item">
+                <NavLink
+                  className="nav-link"
+                  activeclassname="active"
+                  to="/AdminPanel"
+                >
+                  AdminPanel
+                </NavLink>
+              </li>
+            )}
           </ul>
           <div className="row">
-            <div className="col-5">
+            <div className="col-12">
               {user ? (
-                <p
-                  className="btn btn-outline-light px-3 py-1 mx-3 mt-3"
+                <button
+                  type="button"
+                  className="btn btn-outline-light px-3 py-1 mx-3"
+                  onClick={handleLogout}
                 >
-                {user.displayName}
-                </p>
+                  Welcome, {user.displayName}
+                </button>
               ) : (
                 <button
                   type="button"

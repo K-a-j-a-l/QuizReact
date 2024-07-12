@@ -1,48 +1,8 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-const categories = [
-  {
-    id: 1,
-    title: "JavaScript",
-    difficulty: "beginner",
-    description: "Test your JavaScript knowledge.",
-    image:
-      "https://cdn.pixabay.com/photo/2015/04/23/17/41/javascript-736400_640.png",
-    questions: 10,
-    plays: 5000,
-  },
-  {
-    id: 2,
-    title: "Python",
-    difficulty: "beginner",
-    description: "Explore Python programming language.",
-    image:
-      "https://raw.githubusercontent.com/docker-library/docs/01c12653951b2fe592c1f93a13b4e289ada0e3a1/python/logo.png",
-    questions: 15,
-    plays: 7000,
-  },
-  {
-    id: 3,
-    title: "Java",
-    difficulty: "beginner",
-    description: "Challenge yourself with Java quizzes.",
-    image:
-      "https://www.jrebel.com/sites/default/files/image/2020-05/image-blog-revel-top-java-tools.jpg",
-    questions: 20,
-    plays: 9000,
-  },
-  {
-    id: 4,
-    title: "C++",
-    difficulty: "intermediate",
-    description: "Challenge yourself with C++ quizzes.",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsw7v5zOBRSTjLZIINcmFft1bLTQSfGGBIyo-GfGUjsg&s",
-    questions: 12,
-    plays: 6000,
-  },
-];
+import { db } from "../config"; // Import your Firebase configuration
+import { collection, query, getDocs, where } from "firebase/firestore";
+import Loader from "../Components/Loader";
 
 const Hero = {
   backgroundImage:
@@ -66,8 +26,49 @@ export const getBadgeColor = (difficulty) => {
   }
 };
 
+export const getRandomDifficulty = () => {
+  const difficulties = ["beginner", "intermediate", "advanced"];
+  const randomIndex = Math.floor(Math.random() * difficulties.length);
+  return difficulties[randomIndex];
+};
+
 const QuizPage = () => {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const q = query(collection(db, "quizCategories"));
+      try {
+        const querySnapshot = await getDocs(q);
+        const fetchedCategories = [];
+        for (const doc of querySnapshot.docs) {
+          const categoryData = doc.data();
+          // Fetch number of questions for each category
+          const questionsQuery = query(collection(db, "quizQuestions"), where("category", "==", categoryData.name));
+          const questionsSnapshot = await getDocs(questionsQuery);
+          const questionsCount = questionsSnapshot.size;
+
+          fetchedCategories.push({
+            id: doc.id,
+            ...categoryData,
+            questions: questionsCount,
+            plays: Math.floor(Math.random() * 10000), // Random plays (0-9999)
+            difficulty: getRandomDifficulty(),
+            image: "https://example.com/default-image.jpg", // Replace with your default image URL
+          });
+        }
+        setCategories(fetchedCategories);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        setLoading(false);
+      }
+    };
+    fetchCategories();
+  }, []);
+
   return (
     <div>
       <section>
@@ -82,52 +83,63 @@ const QuizPage = () => {
         </div>
       </section>
       <div className="container mt-5">
-        <div className="row">
-          {categories.map((category, index) => (
-            <div className="col-md-4 col-sm-12" key={index}>
-              <div className="quiz-category-card mb-5">
-                <img
-                  src={category.image}
-                  alt="Category Image"
-                  className="d-flex justify-content-center"
-                />
-                <div className="d-flex justify-content-between mx-4">
-                  <p className="absolute bg-white p-1 rounded">
-                    Q: {category.questions}
-                  </p>
-                  <p className="absolute bg-white p-1 rounded">
-                    Plays:{" "}
-                    {category.plays >= 1000
-                      ? (category.plays / 1000).toFixed(0) + "K"
-                      : category.plays}
-                  </p>
-                </div>
-
-                <div>
-                  <h6 className="mx-4 pb-1">{category.title}</h6>
-                  <div
-                    className={`badge mx-4 mb-2 ${getBadgeColor(
-                      category.difficulty
-                    )}`}
-                  >
-                    {category.difficulty}
+        {loading ? (
+          <Loader />
+        ) : (
+          <div className="row">
+            {categories.map((category) => (
+              <div className="col-md-4 col-sm-12" key={category.id}>
+                <div className="quiz-category-card mb-5">
+                  <img
+                    src={category.thumbnail}
+                    alt="Category Image"
+                    className="d-flex justify-content-center"
+                  />
+                  <div className="d-flex justify-content-between mx-4">
+                    <p className="absolute bg-white p-1 rounded">
+                      Q: {category.questions || 0}
+                    </p>
+                    <p className="absolute bg-white p-1 rounded">
+                      Plays:{" "}
+                      {category.plays && category.plays >= 1000
+                        ? (category.plays / 1000).toFixed(0) + "K"
+                        : category.plays}
+                    </p>
                   </div>
-                  <p
-                    className="quiz-desc text-dark mx-4 mb-0"
-                    style={{ fontSize: "0.9rem" }}
-                  >
-                    {category.description}
-                  </p>
-                  <div className="d-flex justify-content-center m-2">
-                    <button className="play-btn px-3 py-2" onClick={()=>navigate('/SingleQuiz')}>
-                      Start Quiz
-                    </button>
+
+                  <div>
+                    <h6 className="mx-4 pb-1">{category.name}</h6>
+                    <div
+                      className={`badge mx-4 mb-2 ${getBadgeColor(
+                        category.difficulty || "beginner"
+                      )}`}
+                    >
+                      {category.difficulty || "beginner"}
+                    </div>
+                    <p
+                      className="quiz-desc text-dark mx-4 mb-0"
+                      style={{ fontSize: "0.9rem" }}
+                    >
+                      {category.description || "No description available."}
+                    </p>
+                    <div className="d-flex justify-content-center m-2">
+                      <button
+                        className="play-btn px-3 py-2"
+                        onClick={() =>
+                          navigate("/SingleQuiz", {
+                            state: { category: category.name },
+                          })
+                        }
+                      >
+                        Start Quiz
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

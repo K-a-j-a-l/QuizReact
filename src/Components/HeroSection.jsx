@@ -16,7 +16,7 @@ function HeroSection() {
                 our quizzes cover a wide range of topics in various programming languages.
                 Enhance your coding skills and learn new concepts with our engaging and educational questions.
             </p>
-            <button className="hero-btn rounded-pill px-4 py-2 text-white" onClick={()=>navigate('/SingleQuiz')}>
+            <button className="hero-btn rounded-pill px-4 py-2 text-white" onClick={()=>navigate("/Quiz")}>
               Start Quiz<i className="mx-2 fa-solid fa-angles-right"></i>
             </button>
           </Col>

@@ -1,55 +1,73 @@
-import React from "react";
-import { Container, Row, Col, Card, Button, Carousel } from "react-bootstrap";
-import "../style.css";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import "../style.css";
 import { getBadgeColor } from "../Pages/QuizPage";
+import { db } from "../config"; // Import your Firebase configuration
+import { collection, query, getDocs, where } from "firebase/firestore";
+import Loader from "./Loader";
 
 function QuizCategories() {
   const navigate = useNavigate();
-  const categories = [
-    {
-      id: 1,
-      title: "JavaScript",
-      difficulty: "beginner",
-      description: "Test your JavaScript knowledge.",
-      image:
-        "https://cdn.pixabay.com/photo/2015/04/23/17/41/javascript-736400_640.png",
-      questions: 10,
-      plays: 5000,
-    },
-    {
-      id: 2,
-      title: "Python",
-      difficulty: "beginner",
-      description: "Explore Python programming language.",
-      image:
-        "https://raw.githubusercontent.com/docker-library/docs/01c12653951b2fe592c1f93a13b4e289ada0e3a1/python/logo.png",
-      questions: 15,
-      plays: 7000,
-    },
-    {
-      id: 3,
-      title: "Java",
-      difficulty: "beginner",
-      description: "Challenge yourself with Java quizzes.",
-      image:
-        "https://www.jrebel.com/sites/default/files/image/2020-05/image-blog-revel-top-java-tools.jpg",
-      questions: 20,
-      plays: 9000,
-    },
-  ];
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true); // State to manage loading
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const q = query(collection(db, "quizCategories"));
+      try {
+        const querySnapshot = await getDocs(q);
+        const fetchedCategories = [];
+        for (const doc of querySnapshot.docs) {
+          const categoryData = doc.data();
+          // Fetch number of questions for each category
+          const questionsQuery = query(
+            collection(db, "quizQuestions"),
+            where("category", "==", categoryData.name)
+          );
+          const questionsSnapshot = await getDocs(questionsQuery);
+          const questionsCount = questionsSnapshot.size;
+
+          fetchedCategories.push({
+            id: doc.id,
+            ...categoryData,
+            questions: questionsCount,
+            plays: Math.floor(Math.random() * 10000), // Random plays (0-9999)
+            difficulty: getRandomDifficulty(),
+          });
+        }
+        setCategories(fetchedCategories);
+        setLoading(false);
+        // Set loading to false after data is fetched
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        setLoading(false); // Set loading to false in case of error
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  // Function to get random difficulty
+  const getRandomDifficulty = () => {
+    const difficulties = ["beginner", "intermediate", "advanced"];
+    const randomIndex = Math.floor(Math.random() * difficulties.length);
+    return difficulties[randomIndex];
+  };
+
+  // Loader component
 
   return (
-    <>
-      <div className="quiz-categories-container py-2">
-        <h2 className="section-title">Quiz Categories</h2>
+    <div className="quiz-categories-container py-2">
+      <h2 className="section-title">Quiz Categories</h2>
+      {loading ? (
+        <Loader /> // Display loader if loading is true
+      ) : (
         <div className="container">
           <div className="row">
-            {categories.map((category, index) => (
+            {categories.slice(0, 3).map((category, index) => (
               <div className="col-md-4 col-sm-12" key={index}>
                 <div className="quiz-category-card mb-5">
                   <img
-                    src={category.image}
+                    src={category.thumbnail}
                     alt="Category Image"
                     className="d-flex justify-content-center"
                   />
@@ -64,9 +82,8 @@ function QuizCategories() {
                         : category.plays}
                     </p>
                   </div>
-
                   <div>
-                    <h6 className="mx-4 pb-1">{category.title}</h6>
+                    <h6 className="mx-4 pb-1">{category.name}</h6>
                     <div
                       className={`badge mx-4 mb-2 ${getBadgeColor(
                         category.difficulty
@@ -81,7 +98,16 @@ function QuizCategories() {
                       {category.description}
                     </p>
                     <div className="d-flex justify-content-center m-2">
-                      <button className="play-btn px-3 py-2" onClick={()=>navigate('/SingleQuiz')}>Start Quiz</button>
+                      <button
+                        className="play-btn px-3 py-2"
+                        onClick={() =>
+                          navigate("/SingleQuiz", {
+                            state: { category: category.title },
+                          })
+                        }
+                      >
+                        Start Quiz
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -100,33 +126,8 @@ function QuizCategories() {
             </div>
           </div>
         </div>
-      </div>
-      <section className="section p-5">
-        <Row className="container-fluid mx-3">
-          <Col md={6}>
-            <p className="quiz-desc">
-              The best way to ask questions, explore ideas, and let students
-              show what they know.
-            </p>
-            <h1 className="quiz-title">Start Learning Today</h1>
-            {/* <button
-              type="button"
-              className="btn btn-outline-light rounded-pill px-5 py-2 mx-2 create-btn"
-              onClick={() => navigate("/login")}
-            >
-              SignUp
-            </button> */}
-          </Col>
-          <Col md={6}>
-            <img
-              src="https://quizizz.com/wf/assets/64f6d6f262069b42407b43db_6333fb9ca08e3adffcfc663b_Funding_CTA_Image-p-800.webp"
-              width={500}
-              height={250}
-            />
-          </Col>
-        </Row>
-      </section>
-    </>
+      )}
+    </div>
   );
 }
 

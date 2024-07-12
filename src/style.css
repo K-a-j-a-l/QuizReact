@@ -8,6 +8,7 @@ body {
   top: 0;
   width: 100vw;
   z-index: 99;
+  padding: 0;
 }
 .login-container {
   margin:150px 100px;
@@ -499,4 +500,78 @@ footer .single-cta {
 
 .container {
   margin-top: 100px;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  font-size: 1.2em;
+  margin-top: 10px;
+  justify-content: flex-end;
+}
+
+.timer i {
+  margin-right: 5px;
+  color:#ffc107;
+}
+.next-btn:disabled{
+  background-color: #f7d87b;
+}
+
+.group{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.group-item{
+  padding: 8px;
+  border-radius: 10px;
+}
+
+.admin-heading{
+  color:#ffc107;
+  margin-bottom:30px;
+}
+
+.admin-btn{
+  padding:10px 15px;
+  margin-top: 20px;
+  background-color: #ffc107;
+  color:white;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.admin-btn:hover{
+  color:#ffc107;
+  background-color: white;
+  border:1px solid #ffc107;
+}
+
+.admin-form-control{
+  border:2px solid #ffc107;
+}
+
+.admin-form-label{
+  color:#343a40;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.admin-cancel-btn{
+  padding:10px;
+  margin-top: 20px;
+  background-color: #343a40;
+  color:white;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-left: 30px;
+}
+
+.admin-cancel-btn:hover{
+  color:#343a40;
+  background-color: white;
+  border:1px solid #343a40;
 }
